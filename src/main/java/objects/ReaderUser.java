@@ -5,7 +5,7 @@ public class ReaderUser {
     private int id;
     private String name;
     private String surname;
-    private int birthday;
+    private String birthday;
 
     public int getId() {
         return id;
@@ -31,11 +31,11 @@ public class ReaderUser {
         this.surname = surname;
     }
 
-    public int getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(int birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

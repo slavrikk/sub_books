@@ -8,31 +8,25 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class ReaderUserDAO  implements DAO <ReaderUser> {
-    private Connection connection;
+    private PreparedStatement statement;
+    private ResultSet rs;
 
+    private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
+    private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
     public ReaderUserDAO() {
 
     }
-
-    public ReaderUserDAO(Connection connection) {
-        this.connection = connection;
-    }
-
     public void create(ReaderUser reader) throws SQLException {
         String sql_query = "INSERT INTO periodicals.readers (name, surname, birthday) VALUES ((?) , (?), (?))";
-
-
         try {
-            String user = "root";
-            String password = "12345";
-            String url = "jdbc:mysql://localhost:3306/library";
-            connection = DriverManager.getConnection(url, user, password);
             PreparedStatement statement = connection.prepareStatement(sql_query);
             statement.setString(1,reader.getName());
             statement.setString(2, reader.getSurname());
-            statement.setInt(3,reader.getBirthday());
+            statement.setString(3,reader.getBirthday());
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -40,12 +34,29 @@ public class ReaderUserDAO  implements DAO <ReaderUser> {
         }
         finally{
             connection.close();
+            statement.close();
         }
     }
 
-    public ReaderUser read(String key) {
+public ReaderUser read(String key) {
 
-        return null;
+final ReaderUser result = new ReaderUser();
+result.setId(Integer.parseInt(key));
+String sql_query = "SELECT * FROM readers WHERE id=(?)";
+
+try{
+    PreparedStatement statement = connection.prepareStatement(sql_query);
+    statement.setString(1, key);
+    final ResultSet rs = statement.executeQuery();
+    if (rs.next()) {
+        result.setName(rs.getString("name"));
+        result.setSurname(rs.getString("surname"));
+        result.setBirthday(rs.getString("birthday"));
+    }
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+        return result;
     }
 
     public void update(ReaderUser model) {
