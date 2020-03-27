@@ -1,6 +1,7 @@
-package jdbc;
+package implementation;
 
-import interf.ReaderUserIntfDAO;
+import interfaces.DAO;
+
 import objects.ReaderUser;
 
 import java.sql.Connection;
@@ -8,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ReaderUserDAO  implements ReaderUserIntfDAO {
+public class ReaderUserDAO  implements DAO <ReaderUser> {
     private Connection connection;
 
     public ReaderUserDAO() {
@@ -43,6 +44,7 @@ public class ReaderUserDAO  implements ReaderUserIntfDAO {
     }
 
     public ReaderUser read(String key) {
+
         return null;
     }
 
