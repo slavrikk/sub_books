@@ -22,7 +22,7 @@ public class Edition {
 
     @Override
     public String toString() {
-        return "objects.Edition{" +
+        return "Edition{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
