@@ -2,7 +2,6 @@ package implementation;
 
 import interfaces.SubscriptionInterface;
 import objects.Subscribe;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +14,9 @@ public class SubscriptionDAO implements SubscriptionInterface {
     private ResultSet rs;
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
+    public boolean check_subscribe = false;
+    public boolean check_subscribe_creation = false;
+    public boolean check_cancel_subscribe = false;
 
 
     public ArrayList<Subscribe> checkSubByReaderId(String id) {
@@ -42,7 +44,6 @@ public class SubscriptionDAO implements SubscriptionInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
         connect.connectionClose(connection,statement,rs);
         return subscribeArrayList;
@@ -55,9 +56,8 @@ public class SubscriptionDAO implements SubscriptionInterface {
              statement_check.setString(1,id_reader);
              statement_check.setString(2, id_edition);
              rs = statement_check.executeQuery();
-
              if(rs.next()){
-                 System.out.println("The subscribe has already exist");
+                 check_subscribe = true;
                  connect.connectionClose(connection,statement_check);
              }
              else{
@@ -68,23 +68,19 @@ public class SubscriptionDAO implements SubscriptionInterface {
                      statement.setString(2, id_edition);
                      int result = statement.executeUpdate();
                      if(result>0){
-                         System.out.println("The Subscription has been added successfully");
+                         check_subscribe_creation = true;
                      }
                  }
                  catch (SQLException e) {
                      System.out.println("Error! The Reader does not exist or the estimate not found");
                      e.printStackTrace();
-
                  }
                  connect.connectionClose(connection,statement_check);
                  connect.connectionClose(connection,statement);
              }
-
          } catch (SQLException e) {
              e.printStackTrace();
          }
-
-
     }
 
     public void cancelSubscribe(String id_reader, String id_edition) {
@@ -96,10 +92,7 @@ public class SubscriptionDAO implements SubscriptionInterface {
             int result = statement.executeUpdate();
 
             if(result>0){
-                System.out.println("The Subscription has been deleted");
-            }
-            else{
-                System.out.println("This Subscription does not exist due to reader or estimate does not exist");
+                check_cancel_subscribe = true;
             }
 
         } catch (SQLException e) {

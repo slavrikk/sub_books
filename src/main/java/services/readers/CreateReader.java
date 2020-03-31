@@ -19,6 +19,9 @@ public class CreateReader {
             e.printStackTrace();
             System.out.println("Error under create");
         }
+        if(readerUser.check_create_response){
+            System.out.println("The Reader has been added");
+        }
     }
 
 }

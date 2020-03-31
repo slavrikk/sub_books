@@ -1,7 +1,6 @@
 package interfaces;
 
 import objects.Subscribe;
-
 import java.util.ArrayList;
 
 public interface SubscriptionInterface {

@@ -17,6 +17,12 @@ public class UpdateReaderSurnameById {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if(request.check_update_response){
+            System.out.println("The Reader has updated");
+        }
+        else{
+            System.out.println("This Reader does not exist");
+        }
 
     }
 }

@@ -15,5 +15,11 @@ public class UpdateEditionNameById {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if(request.check_update_response){
+            System.out.println("The Edition has updated");
+        }
+        else{
+            System.out.println("This Edition does not exist");
+        }
     }
 }

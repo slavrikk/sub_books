@@ -9,26 +9,38 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class EditionDAO implements EditionInterface {
-
     private PreparedStatement statement;
     private ResultSet rs;
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
-
+    public boolean check_delete_response = false;
+    public boolean check_update_response = false;
+    public boolean check_create_response = false;
 
     public void create(Edition publication) throws SQLException {
-        String sql_query = "INSERT INTO periodicals.edition (name) VALUES ((?))";
+        String sql_query_with_id = "INSERT INTO periodicals.edition (name, id) VALUES ((?), (?))";
+        String sql_query_no_id = "INSERT INTO periodicals.edition (name) VALUES ((?))";
+        String sql_query = "";
         try {
-            statement = connection.prepareStatement(sql_query);
-            statement.setString(1,publication.getName());
+            if(publication.getId()==0){
+                sql_query=sql_query_no_id;
+                statement = connection.prepareStatement(sql_query);
+                statement.setString(1,publication.getName());
+            }
+            else{
+                sql_query=sql_query_with_id;
+                statement = connection.prepareStatement(sql_query);
+                statement.setString(1,publication.getName());
+                statement.setString(2, String.valueOf(publication.getId()));
+            }
+
             int result = statement.executeUpdate();
             if(result>0){
-                System.out.println("The Edition has been added");
+                check_create_response = true;
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
-
         }
         connect.connectionClose(connection,statement);
     }
@@ -37,7 +49,6 @@ public class EditionDAO implements EditionInterface {
         final Edition publication = new Edition();
         publication.setId(Integer.parseInt(key));
         String sql_query = "SELECT * FROM edition WHERE id=(?)";
-
         try{
             statement = connection.prepareStatement(sql_query);
             statement.setString(1, key);
@@ -48,9 +59,10 @@ public class EditionDAO implements EditionInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
+
         connect.connectionClose(connection,statement,rs);
+
         return publication;
     }
 
@@ -58,6 +70,7 @@ public class EditionDAO implements EditionInterface {
         final Edition result = new Edition();
         result.setName(name);
         String sql_query = "select * from edition where name = (?)";
+
         try{
             statement = connection.prepareStatement(sql_query);
             statement.setString(1, name);
@@ -67,9 +80,10 @@ public class EditionDAO implements EditionInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
+
         connect.connectionClose(connection,statement,rs);
+
         return result;
     }
 
@@ -79,11 +93,9 @@ public class EditionDAO implements EditionInterface {
         statement.setString(1, model.getName());
         statement.setInt(2, model.getId());
         int result = statement.executeUpdate();
+
         if(result>0){
-            System.out.println("The Edition has updated");
-        }
-        else{
-            System.out.println("This Edition does not exist");
+            check_update_response = true;
         }
         connect.connectionClose(connection,statement);
     }
@@ -94,17 +106,14 @@ public class EditionDAO implements EditionInterface {
             statement = connection.prepareStatement(sql_query);
             statement.setString(1,key);
             int result = statement.executeUpdate();
-
             if(result>0){
-                System.out.println("The Edition has been deleted");
-            }
-            else{
-                System.out.println("This Edition does not exist or has been deleted early");
+                check_delete_response =true;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         connect.connectionClose(connection,statement);
     }
 
@@ -119,17 +128,15 @@ public class EditionDAO implements EditionInterface {
                 Edition edition = new Edition();
                 edition.setId(Integer.parseInt(rs.getString("id")));
                 edition.setName(rs.getString("name"));
-
                 arr_editions.add(edition);
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         connect.connectionClose(connection,statement,rs);
+
         return arr_editions;
-
     }
-
-
 }
