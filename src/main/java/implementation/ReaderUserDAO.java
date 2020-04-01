@@ -17,6 +17,7 @@ public class ReaderUserDAO  implements ReaderUserInterface {
     private PreparedStatement statement;
     private ResultSet rs;
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
+    //Input your own settings to DataBase connection
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
 
     public void create(ReaderUser reader) throws SQLException {

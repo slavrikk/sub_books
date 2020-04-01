@@ -12,10 +12,12 @@ public class EditionDAO implements EditionInterface {
     private PreparedStatement statement;
     private ResultSet rs;
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
+    //Input your own settings to DataBase connection
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
     public boolean check_delete_response = false;
     public boolean check_update_response = false;
     public boolean check_create_response = false;
+    public boolean check_fail_response = false;
 
     public void create(Edition publication) throws SQLException {
         String sql_query_with_id = "INSERT INTO periodicals.edition (name, id) VALUES ((?), (?))";
@@ -111,7 +113,10 @@ public class EditionDAO implements EditionInterface {
             }
 
         } catch (SQLException e) {
+            check_fail_response = true;
+
             e.printStackTrace();
+
         }
 
         connect.connectionClose(connection,statement);

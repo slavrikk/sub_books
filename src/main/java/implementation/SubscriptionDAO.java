@@ -13,6 +13,7 @@ public class SubscriptionDAO implements SubscriptionInterface {
     private PreparedStatement statement;
     private ResultSet rs;
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
+    //Input your own settings to DataBase connection
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
     public boolean check_subscribe = false;
     public boolean check_subscribe_creation = false;
@@ -72,7 +73,7 @@ public class SubscriptionDAO implements SubscriptionInterface {
                      }
                  }
                  catch (SQLException e) {
-                     System.out.println("Error! The Reader does not exist or the estimate not found");
+                     System.out.println("Error! The Reader does not exist or the Edition not found");
                      e.printStackTrace();
                  }
                  connect.connectionClose(connection,statement_check);
