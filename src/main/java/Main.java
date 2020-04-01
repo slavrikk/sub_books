@@ -1,5 +1,15 @@
-import services.editions.*;
-import services.readers.*;
+import services.editions.CreateEdition;
+import services.editions.DeleteEdition;
+import services.editions.ObtainAllEditions;
+import services.editions.ObtainEditionById;
+import services.editions.ObtainEditionByName;
+import services.editions.UpdateEditionNameById;
+import services.readers.CreateReader;
+import services.readers.DeleteReader;
+import services.readers.ObtainAllReaders;
+import services.readers.ObtainTheReaderById;
+import services.readers.ObtainTheReaderByName;
+import services.readers.UpdateReaderSurnameById;
 import services.subscriptions.DeleteSubscription;
 import services.subscriptions.ObtainSubscriptionsByReaderId;
 import services.subscriptions.SubscribeReader;
