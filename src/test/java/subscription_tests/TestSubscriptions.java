@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TestSubscriptions {
 
     @BeforeClass()
-    void createReader(){
+    void createReader() throws SQLException {
         ReaderUser new_reader =new ReaderUser();
         new_reader.setId(14);
         new_reader.setName("Василий");
@@ -32,7 +32,7 @@ public class TestSubscriptions {
     }
 
     @BeforeClass()
-    void createEdition(){
+    void createEdition() throws SQLException {
         Edition new_edition = new Edition();
         new_edition.setId(10);
         new_edition.setName("РБК");
@@ -45,14 +45,14 @@ public class TestSubscriptions {
     }
 
     @Test(priority = 1)
-    void testCreateSubscription(){
+    void testCreateSubscription() throws SQLException {
         SubscriptionDAO req = new SubscriptionDAO();
         req.subscribeReaderToEstimate("14", "10");
-        Assert.assertTrue(req.check_subscribe_creation);
+        Assert.assertTrue(req.isCheck_subscribe_creation());
     }
 
     @Test(priority = 2)
-    void testReadSubscription(){
+    void testReadSubscription() throws SQLException {
         String expected_surname = "Петров";
         SubscriptionDAO resp = new SubscriptionDAO();
         ArrayList<Subscribe> array_list = resp.checkSubByReaderId("14");
@@ -61,14 +61,14 @@ public class TestSubscriptions {
     }
 
     @Test(priority = 3)
-    void testDeleteSubscription(){
+    void testDeleteSubscription() throws SQLException {
         SubscriptionDAO req = new SubscriptionDAO();
         req.cancelSubscribe("14", "10");
-        Assert.assertTrue(req.check_cancel_subscribe);
+        Assert.assertTrue(req.isCheck_cancel_subscribe());
     }
 
    @AfterClass()
-    void deleteReaderAndEdition(){
+    void deleteReaderAndEdition() throws SQLException {
        ReaderUserDAO req_reader = new ReaderUserDAO();
        req_reader.delete("14");
        EditionDAO req_estimate = new EditionDAO();

@@ -14,6 +14,7 @@ import services.subscriptions.DeleteSubscription;
 import services.subscriptions.ObtainSubscriptionsByReaderId;
 import services.subscriptions.SubscribeReader;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /*
@@ -27,7 +28,7 @@ in EditionDAO, ReaderUserDAO, SubscriptionDAO classes accordingly. These interfa
 Enjoy using!
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         boolean start = true;
         while (start){
             System.out.println("Where would you like to work?\n" +

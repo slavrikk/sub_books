@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ObtainTheReaderById {
 
-    public void obtainReader(String id) {
+    public void obtainReader(String id) throws SQLException {
         ReaderUserDAO newreader = new ReaderUserDAO();
         ReaderUser reader = null;
         try {

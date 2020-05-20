@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class CreateReader {
 
-    public void createReader(String name,String surName,String birthday) {
+    public void createReader(String name,String surName,String birthday) throws SQLException {
     ReaderUser newuser = new ReaderUser();
     newuser.setName(name);
     newuser.setSurname(surName);
@@ -19,7 +19,7 @@ public class CreateReader {
             e.printStackTrace();
             System.out.println("Error under create");
         }
-        if(readerUser.check_create_response){
+        if(readerUser.isCheck_create_response()){
             System.out.println("The Reader has been added");
         }
     }

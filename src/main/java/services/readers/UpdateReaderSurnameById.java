@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class UpdateReaderSurnameById {
 
-    public void updateReaderSurname(String id,String surname){
+    public void updateReaderSurname(String id,String surname) throws SQLException {
         ReaderUser reader = new ReaderUser();
         reader.setSurname(surname);
         reader.setId(Integer.parseInt(id));
@@ -17,7 +17,7 @@ public class UpdateReaderSurnameById {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(request.check_update_response){
+        if(request.isCheck_update_response()){
             System.out.println("The Reader has updated");
         }
         else{

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class CreateEdition {
 
-    public void createEdition(String name){
+    public void createEdition(String name) throws SQLException {
         Edition new_edition = new Edition();
         new_edition.setName(name);
         EditionDAO request = new EditionDAO();
@@ -16,7 +16,7 @@ public class CreateEdition {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(request.check_create_response){
+        if(request.isCheck_create_response()){
             System.out.println("The Edition has been added");
         }
     }

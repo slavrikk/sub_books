@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class TestReaders {
 
     @Test(priority = 1)
-    void testCreateUser(){
+    void testCreateUser() throws SQLException {
         ReaderUser new_reader = new ReaderUser();
         new_reader.setName("Роман");
         new_reader.setSurname("Широков");
@@ -21,11 +21,11 @@ public class TestReaders {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(request.check_create_response);
+        Assert.assertTrue(request.isCheck_create_response());
     }
 
     @Test(priority = 2)
-    void testObtainReaderById(){
+    void testObtainReaderById() throws SQLException {
         String actual_reader = "";
         ReaderUser expect_reader = new ReaderUser();
         expect_reader.setId(5);
@@ -43,7 +43,7 @@ public class TestReaders {
     }
 
     @Test(priority = 3)
-    void testObtainReaderByName(){
+    void testObtainReaderByName() throws SQLException {
         ReaderUser expect_reader = new ReaderUser();
         expect_reader.setName("Роман");
         expect_reader.setSurname("Широков");
@@ -55,7 +55,7 @@ public class TestReaders {
 
 
     @Test(priority = 4)
-    void testUpdateReaderSurname(){
+    void testUpdateReaderSurname() throws SQLException {
         ReaderUser new_reader = new ReaderUser();
         new_reader.setId(5);
         new_reader.setSurname("Васильев");
@@ -65,15 +65,15 @@ public class TestReaders {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(request.check_update_response);
+        Assert.assertTrue(request.isCheck_update_response());
     }
 
     @Test(priority = 5)
-    void testDeleteReaderById(){
+    void testDeleteReaderById() throws SQLException {
         String id = "5";
         ReaderUserDAO request = new ReaderUserDAO();
         request.delete(id);
-        Assert.assertTrue(request.check_delete_response);
+        Assert.assertTrue(request.isCheck_delete_response());
     }
 
 }

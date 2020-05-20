@@ -14,53 +14,79 @@ public class EditionDAO implements EditionInterface {
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
     //Input your own settings to DataBase connection
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
-    public boolean check_delete_response = false;
-    public boolean check_update_response = false;
-    public boolean check_create_response = false;
-    public boolean check_fail_response = false;
+    private boolean check_delete_response = false;
+    private boolean check_update_response = false;
+    private boolean check_create_response = false;
+    private boolean check_fail_response = false;
+
+    public boolean isCheck_delete_response() {
+        return check_delete_response;
+    }
+
+    public void setCheck_delete_response(boolean check_delete_response) {
+        this.check_delete_response = check_delete_response;
+    }
+
+    public boolean isCheck_update_response() {
+        return check_update_response;
+    }
+
+    public void setCheck_update_response(boolean check_update_response) {
+        this.check_update_response = check_update_response;
+    }
+
+    public boolean isCheck_create_response() {
+        return check_create_response;
+    }
+
+    public void setCheck_create_response(boolean check_create_response) {
+        this.check_create_response = check_create_response;
+    }
+
+    public boolean isCheck_fail_response() {
+        return check_fail_response;
+    }
+
+    public void setCheck_fail_response(boolean check_fail_response) {
+        this.check_fail_response = check_fail_response;
+    }
+
+    public EditionDAO() throws SQLException {
+    }
 
     public void create(Edition publication) throws SQLException {
         String sql_query_with_id = "INSERT INTO periodicals.edition (name, id) VALUES ((?), (?))";
         String sql_query_no_id = "INSERT INTO periodicals.edition (name) VALUES ((?))";
         String sql_query = "";
-        try {
-            if(publication.getId()==0){
-                sql_query=sql_query_no_id;
-                statement = connection.prepareStatement(sql_query);
-                statement.setString(1,publication.getName());
-            }
-            else{
-                sql_query=sql_query_with_id;
-                statement = connection.prepareStatement(sql_query);
-                statement.setString(1,publication.getName());
-                statement.setString(2, String.valueOf(publication.getId()));
-            }
-
-            int result = statement.executeUpdate();
-            if(result>0){
-                check_create_response = true;
-            }
+        if(publication.getId()==0){
+            sql_query=sql_query_no_id;
+            statement = connection.prepareStatement(sql_query);
+            statement.setString(1,publication.getName());
         }
-        catch (SQLException e) {
-            e.printStackTrace();
+        else{
+            sql_query=sql_query_with_id;
+            statement = connection.prepareStatement(sql_query);
+            statement.setString(1,publication.getName());
+            statement.setString(2, String.valueOf(publication.getId()));
+        }
+
+        int result = statement.executeUpdate();
+        if(result>0){
+            check_create_response = true;
         }
         connect.connectionClose(connection,statement);
     }
 
-    public Edition read(String key) {
+    public Edition read(String key) throws SQLException {
         final Edition publication = new Edition();
         publication.setId(Integer.parseInt(key));
         String sql_query = "SELECT * FROM edition WHERE id=(?)";
-        try{
-            statement = connection.prepareStatement(sql_query);
-            statement.setString(1, key);
-            rs = statement.executeQuery();
-            if (rs.next()) {
-                publication.setName(rs.getString("name"));
+        statement = connection.prepareStatement(sql_query);
+        statement.setString(1, key);
+        rs = statement.executeQuery();
+        if (rs.next()) {
+            publication.setName(rs.getString("name"));
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         connect.connectionClose(connection,statement,rs);
@@ -68,20 +94,16 @@ public class EditionDAO implements EditionInterface {
         return publication;
     }
 
-    public Edition readByName(String name) {
+    public Edition readByName(String name) throws SQLException {
         final Edition result = new Edition();
         result.setName(name);
         String sql_query = "select * from edition where name = (?)";
 
-        try{
-            statement = connection.prepareStatement(sql_query);
-            statement.setString(1, name);
-            rs = statement.executeQuery();
-            if (rs.next()) {
-                result.setId(Integer.parseInt(rs.getString("id")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        statement = connection.prepareStatement(sql_query);
+        statement.setString(1, name);
+        rs = statement.executeQuery();
+        if (rs.next()) {
+            result.setId(Integer.parseInt(rs.getString("id")));
         }
 
         connect.connectionClose(connection,statement,rs);
@@ -102,21 +124,13 @@ public class EditionDAO implements EditionInterface {
         connect.connectionClose(connection,statement);
     }
 
-    public void delete(String key) {
+    public void delete(String key) throws SQLException {
         String sql_query = "DELETE FROM edition WHERE id = (?)";
-        try {
-            statement = connection.prepareStatement(sql_query);
-            statement.setString(1,key);
-            int result = statement.executeUpdate();
-            if(result>0){
-                check_delete_response =true;
-            }
-
-        } catch (SQLException e) {
-            check_fail_response = true;
-
-            e.printStackTrace();
-
+        statement = connection.prepareStatement(sql_query);
+        statement.setString(1,key);
+        int result = statement.executeUpdate();
+        if(result>0){
+            check_delete_response =true;
         }
 
         connect.connectionClose(connection,statement);

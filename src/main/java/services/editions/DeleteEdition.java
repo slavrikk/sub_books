@@ -7,10 +7,10 @@ public class DeleteEdition {
         try{
             EditionDAO request = new EditionDAO();
             request.delete(id);
-            if(request.check_delete_response){
+            if(request.isCheck_delete_response()){
                 System.out.println("The Edition has been deleted");
             }
-            else if(request.check_fail_response){
+            else if(request.isCheck_fail_response()){
                 System.out.println("You can`t delete this Edition because a lot of subscriptions use it");
             }
             else{

@@ -2,11 +2,13 @@ package services.readers;
 
 import implementation.ReaderUserDAO;
 
+import java.sql.SQLException;
+
 public class DeleteReader {
-    public void deleteReader(String id){
+    public void deleteReader(String id) throws SQLException {
         ReaderUserDAO response = new ReaderUserDAO();
         response.delete(id);
-       if(response.check_delete_response){
+       if(response.isCheck_delete_response()){
            System.out.println("The Reader has been deleted");
        }
        else{

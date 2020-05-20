@@ -5,7 +5,7 @@ import objects.Edition;
 import java.sql.SQLException;
 
 public class UpdateEditionNameById {
-    public void updateEditionName(int id, String changing_name) {
+    public void updateEditionName(int id, String changing_name) throws SQLException {
         Edition edition = new Edition();
         edition.setId(id);
         edition.setName(changing_name);
@@ -15,7 +15,7 @@ public class UpdateEditionNameById {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(request.check_update_response){
+        if(request.isCheck_update_response()){
             System.out.println("The Edition has updated");
         }
         else{

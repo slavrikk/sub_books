@@ -9,12 +9,8 @@ import java.sql.ResultSet;
 
 public class ConnectionDAOtoDB implements ConnectionDAO {
     private Connection connection;
-    public Connection setConnection(String user, String password, String url) {
-        try{
-            connection = DriverManager.getConnection(url+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", user, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Connection setConnection(String user, String password, String url) throws SQLException {
+        connection = DriverManager.getConnection(url+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", user, password);
         return connection;
     }
 

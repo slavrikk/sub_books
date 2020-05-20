@@ -7,7 +7,7 @@ public interface DAO <Entity> {
     void create(Entity model) throws SQLException;
     Entity read(String key) throws SQLException;
     void update(Entity model) throws SQLException;
-    void delete(String key);
-    ArrayList<Entity> selectALL();
+    void delete(String key) throws SQLException;
+    ArrayList<Entity> selectALL() throws SQLException;
 
 }

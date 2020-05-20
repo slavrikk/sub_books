@@ -15,9 +15,24 @@ public class SubscriptionDAO implements SubscriptionInterface {
     private ConnectionDAOtoDB connect = new ConnectionDAOtoDB();
     //Input your own settings to DataBase connection
     private Connection connection = connect.setConnection("root","12345","jdbc:mysql://localhost:3306/periodicals");
-    public boolean check_subscribe = false;
-    public boolean check_subscribe_creation = false;
-    public boolean check_cancel_subscribe = false;
+    private boolean check_subscribe = false;
+    private boolean check_subscribe_creation = false;
+    private boolean check_cancel_subscribe = false;
+
+    public boolean isCheck_subscribe() {
+        return check_subscribe;
+    }
+
+    public boolean isCheck_subscribe_creation() {
+        return check_subscribe_creation;
+    }
+
+    public boolean isCheck_cancel_subscribe() {
+        return check_cancel_subscribe;
+    }
+
+    public SubscriptionDAO() throws SQLException {
+    }
 
 
     public ArrayList<Subscribe> checkSubByReaderId(String id) {

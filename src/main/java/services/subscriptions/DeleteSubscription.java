@@ -2,12 +2,14 @@ package services.subscriptions;
 
 import implementation.SubscriptionDAO;
 
+import java.sql.SQLException;
+
 public class DeleteSubscription {
 
-    public void deleteSubscription(String id_reader, String id_edition){
+    public void deleteSubscription(String id_reader, String id_edition) throws SQLException {
         SubscriptionDAO request = new SubscriptionDAO();
         request.cancelSubscribe(id_reader,id_edition);
-        if(request.check_cancel_subscribe){
+        if(request.isCheck_cancel_subscribe()){
             System.out.println("The Subscription has been deleted");
         }
         else{
